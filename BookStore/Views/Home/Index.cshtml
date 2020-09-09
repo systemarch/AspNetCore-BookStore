@@ -1,0 +1,27 @@
+﻿@model IQueryable<Author>
+
+@{
+    var totalAuthors = Model.Count();
+    var totalBooks = Model.Select(a => a.Books.Count()).ToList().Sum();
+}
+
+<p>There are @totalAuthors authors, @totalBooks books in the database.</p>
+<br />
+@if (totalAuthors != 0)
+{
+    <p>Authors and their books:</p>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                @item.Name
+                <ul>
+                    @foreach (var book in item.Books)
+                    {
+                        <li>@book.Title</li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+}
