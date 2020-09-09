@@ -341,3 +341,6 @@ healthchecksdb
 
 # Visual Studio Code
 /.vscode
+
+# Client-side libraries
+/BookStore/wwwroot/lib
