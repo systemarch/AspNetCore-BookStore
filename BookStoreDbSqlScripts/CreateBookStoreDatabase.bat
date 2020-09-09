@@ -1,0 +1,10 @@
+SET SQLCMD="sqlcmd"
+SET SERVER="(localdb)\MSSQLLocalDB"
+SET DB="BookStore"
+
+%SQLCMD% -S %SERVER% -i "CreateBookStoreDatabase.sql"
+%SQLCMD% -S %SERVER% -d %DB% -i "CreateAuthorTable.sql"
+%SQLCMD% -S %SERVER% -d %DB% -i "CreatePublisherTable.sql"
+%SQLCMD% -S %SERVER% -d %DB% -i "CreateCategoryTable.sql"
+%SQLCMD% -S %SERVER% -d %DB% -i "CreateBookLanguageTable.sql"
+%SQLCMD% -S %SERVER% -d %DB% -i "CreateBookTable.sql"
