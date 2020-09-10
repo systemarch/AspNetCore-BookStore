@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Models;
 using BookStore.Models.Repositories;
+using BookStore.Models.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +53,9 @@ namespace BookStore
                 .AddRazorRuntimeCompilation();
 
             services.AddTransient<IBookStoreRepository, EFBookStoreRepository>();
+
+            services.AddTransient<ImageService>();
+            services.AddTransient<FormattingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +74,7 @@ namespace BookStore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }

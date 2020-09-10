@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore", "BookStore\BookStore.csproj", "{9A8B2892-10F5-4523-B36A-2BD2A46FD147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreDbSeeder", "BookStoreDbSeeder\BookStoreDbSeeder.csproj", "{E8F4838A-3C26-4217-BE1C-E8E796152D2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStoreDbSeeder", "BookStoreDbSeeder\BookStoreDbSeeder.csproj", "{E8F4838A-3C26-4217-BE1C-E8E796152D2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
