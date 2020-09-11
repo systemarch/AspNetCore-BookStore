@@ -1,0 +1,60 @@
+﻿@page
+@inject ImageService imageService
+@inject FormattingService formattingService
+@model BookStore.Areas.Admin.Pages.Database.Authors.IndexModel
+@{
+    ViewData["Title"] = "Authors Management";
+}
+
+<p>
+    <a class="btn btn-primary" asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col" style="width: 8%;">Photo</th>
+            <th scope="col">Name</th>
+            <th scope="col">Born</th>
+            <th scope="col">Died</th>
+            <th scope="col" style="width: 32%;">Biography</th>
+            <th scope="col">Website</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Authors)
+        {
+            <tr>
+                <th scope="row">@item.AuthorId</th>
+                <td>
+                    <img class="img img-thumbnail px-0"
+                         src="@imageService.GetBase64Encoding(item.PhotoImage, item.PhotoImageType)" alt="No Photo" />
+                </td>
+                <td>@item.Name</td>
+                <td>@formattingService.FormatDate(item.DateOfBirth)</td>
+                <td>@formattingService.FormatDate(item.DateOfDeath)</td>
+                <td>
+                    @{
+                        const int truncateIndex = 125;
+                        if (item.Biography.Length > truncateIndex)
+                        {
+                            <span>@item.Biography.Substring(0, truncateIndex)</span><span>&hellip;</span>
+                        }
+                        else
+                        {
+                            <span>@item.Biography</span>
+                        }
+                    }
+                </td>
+                <td><a href="@item.Website">@item.Website</a></td>
+                <td class="btn-group-vertical">
+                    <a asp-page="./Edit" asp-route-id="@item.AuthorId">Edit</a>
+                    <a class="text-danger" href="#confirmAuthorDeletionModal-@item.AuthorId"
+                       data-toggle="modal">Delete</a>
+                    @await Html.PartialAsync("_ConfirmAuthorDeletionModal", item)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

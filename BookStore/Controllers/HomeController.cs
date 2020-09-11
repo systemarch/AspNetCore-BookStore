@@ -19,7 +19,7 @@ namespace BookStore.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToPage("/Dashboard", new { area = "Admin" });
+            return RedirectToPage("/Database/Authors/Index", new { area = "Admin" });
             //return View(_repository.Authors.Include(a => a.Books));
         }
     }
