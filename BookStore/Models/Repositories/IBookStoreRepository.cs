@@ -12,5 +12,11 @@ namespace BookStore.Models.Repositories
         IQueryable<Category> Categories { get; }
         IQueryable<BookLanguage> Languages { get; }
         IQueryable<Publisher> Publishers { get; }
+
+        bool AuthorExists(int id);
+        Task<Author> FindAuthorAsync(int? id);
+        Task AddAuthorAsync(Author author);
+        Task EditAuthorAsync(Author author);
+        Task DeleteAuthorAsync(Author author);
     }
 }
