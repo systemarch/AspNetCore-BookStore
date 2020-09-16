@@ -6,55 +6,109 @@
     ViewData["Title"] = "Authors Management";
 }
 
-<p>
-    <a class="btn btn-primary" asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col" style="width: 8%;">Photo</th>
-            <th scope="col">Name</th>
-            <th scope="col">Born</th>
-            <th scope="col">Died</th>
-            <th scope="col" style="width: 32%;">Biography</th>
-            <th scope="col">Website</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Authors)
-        {
+<div class="form-group row justify-content-between">
+    <div>
+        <a class="btn btn-primary ml-2" asp-page="Create">Create New</a>
+    </div>
+    <div class="d-inline-flex">
+        <form asp-page="./Index" method="get">
+            <div class="d-inline-flex mt-1">
+                <input type="search" name="SearchString"
+                       placeholder="Search by name"
+                       value="@Model.CurrentFilter" class="form-control-sm" />
+                <input type="submit" value="Search" class="btn btn-primary btn-sm" />
+                <div class="mt-1">
+                    &nbsp;|
+                    <a asp-page="./Index">Back to full List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
             <tr>
-                <th scope="row">@item.AuthorId</th>
-                <td>
-                    <img class="img img-thumbnail px-0"
-                         src="@imageService.GetBase64Encoding(item.PhotoImage, item.PhotoImageType)" alt="No Photo" />
-                </td>
-                <td>@item.Name</td>
-                <td>@formattingService.FormatDate(item.DateOfBirth)</td>
-                <td>@formattingService.FormatDate(item.DateOfDeath)</td>
-                <td>
-                    @{
-                        const int truncateIndex = 125;
-                        if (item.Biography.Length > truncateIndex)
-                        {
-                            <span>@item.Biography.Substring(0, truncateIndex)</span><span>&hellip;</span>
-                        }
-                        else
-                        {
-                            <span>@item.Biography</span>
-                        }
-                    }
-                </td>
-                <td><a href="@item.Website">@item.Website</a></td>
-                <td class="btn-group-vertical">
-                    <a asp-page="./Edit" asp-route-id="@item.AuthorId">Edit</a>
-                    <a class="text-danger" href="#confirmAuthorDeletionModal-@item.AuthorId"
-                       data-toggle="modal">Delete</a>
-                    @await Html.PartialAsync("_ConfirmAuthorDeletionModal", item)
-                </td>
+                <th scope="col">
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.IdSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        ID
+                    </a>
+                </th>
+                <th scope="col" style="width: 8%;">Photo</th>
+                <th scope="col">
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        Name
+                    </a>
+                </th>
+                <th scope="col">
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.DateOfBirthSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        Born
+                    </a>
+                </th>
+                <th scope="col">Died</th>
+                <th scope="col" style="width: 32%;">Biography</th>
+                <th scope="col">Website</th>
+                <th scope="col"></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Authors)
+            {
+                <tr>
+                    <th scope="row">@item.AuthorId</th>
+                    <td>
+                        <img class="img img-thumbnail px-0"
+                             src="@imageService.GetBase64Encoding(item.PhotoImage, item.PhotoImageType)" alt="No Photo" />
+                    </td>
+                    <td>@item.Name</td>
+                    <td>@formattingService.FormatDate(item.DateOfBirth)</td>
+                    <td>@formattingService.FormatDate(item.DateOfDeath)</td>
+                    <td>
+                        @{
+                            const int truncateIndex = 125;
+                            if (item.Biography.Length > truncateIndex)
+                            {
+                                <span>@item.Biography.Substring(0, truncateIndex)</span><span>&hellip;</span>
+                            }
+                            else
+                            {
+                                <span>@item.Biography</span>
+                            }
+                        }
+                    </td>
+                    <td><a href="@item.Website">@item.Website</a></td>
+                    <td class="btn-group-vertical">
+                        <a asp-page="./Edit" asp-route-id="@item.AuthorId">Edit</a>
+                        <a class="text-danger" href="#confirmAuthorDeletionModal-@item.AuthorId"
+                           data-toggle="modal">Delete</a>
+                        @await Html.PartialAsync("_ConfirmAuthorDeletionModal", item)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @{
+        var prevDisabled = !Model.Authors.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.Authors.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Authors.PageIndex - 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @prevDisabled">
+        Previous
+    </a>
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Authors.PageIndex + 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @nextDisabled">
+        Next
+    </a>
+</div>
