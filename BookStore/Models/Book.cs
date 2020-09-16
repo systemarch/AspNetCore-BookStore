@@ -44,6 +44,8 @@ namespace BookStore.Models
         [DisplayName("ISBN13")]
         public string Isbn13 { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue)]
         [DisplayName("Total pages")]
         public int TotalPages { get; set; }
 

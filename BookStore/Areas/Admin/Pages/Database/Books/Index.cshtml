@@ -1,0 +1,64 @@
+﻿@page
+@inject ImageService imageService
+@inject FormattingService formattingService
+@model BookStore.Areas.Admin.Pages.Database.Books.IndexModel
+@{
+    ViewData["Title"] = "Books Management";
+}
+
+<p>
+    <a class="btn btn-primary" asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col" style="width: 8%;">Cover</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Category</th>
+            <th scope="col">Published</th>
+            <th scope="col" style="width: 32%;">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books.TakeLast(10))
+        {
+            <tr>
+                <th scope="row">@item.BookId</th>
+                <td>
+                    <img class="img img-thumbnail px-0"
+                         src="@imageService.GetBase64Encoding(item.CoverImage, item.CoverImageType)" alt="No Photo" />
+                </td>
+                <td>@item.Title</td>
+                <td>@item.Author.Name</td>
+                <td>@item.Isbn13<br />@item.Isbn10</td>
+                <td>@item.Category.Name,<br />@formattingService.FormatMaturity(item.IsMature)</td>
+                <td>@formattingService.FormatDate(item.PublicationDate), @item.Publisher.Name</td>
+                <td>
+                    @{
+                        const int truncateIndex = 125;
+                        if (item.Description.Length > truncateIndex)
+                        {
+                            <span>@item.Description.Substring(0, truncateIndex)</span><span>&hellip;</span>
+                        }
+                        else
+                        {
+                            <span>@item.Description</span>
+                        }
+                    }
+                </td>
+                <td>@formattingService.FormatPrice(item.Price)</td>
+                <td class="btn-group-vertical">
+                    <a asp-page="./Edit" asp-route-id="@item.BookId">Edit</a>
+                    <a class="text-danger" href="#confirmBookDeletionModal-@item.BookId"
+                       data-toggle="modal">Delete</a>
+                    @await Html.PartialAsync("_ConfirmBookDeletionModal", item)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

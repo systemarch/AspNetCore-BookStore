@@ -1,0 +1,129 @@
+﻿@page
+@model BookStore.Areas.Admin.Pages.Database.Books.CreateModel
+@{
+    ViewData["Title"] = "Create Book";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="form-group col-md-4">
+                    <div class="form-group">
+                        <label asp-for="CoverImageFile" class="control-label"></label>
+                        <input type="file" accept="image/*" asp-for="CoverImageFile" class="form-control" />
+                        <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CoverImageUrl" class="control-label"></label>
+                        <input asp-for="CoverImageUrl" class="form-control" />
+                        <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-8">
+                    <div class="form-group row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Book.Title" class="control-label"></label>
+                            <input asp-for="Book.Title" class="form-control" />
+                            <span asp-validation-for="Book.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Book.Subtitle" class="control-label"></label>
+                            <input asp-for="Book.Subtitle" class="form-control" />
+                            <span asp-validation-for="Book.Subtitle" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="AuthorId" class="control-label"></label>
+                            <select asp-for="AuthorId" class="form-control"
+                                    asp-items="@Model.AuthorNameSelectList">
+                                <option value="">Select...</option>
+                            </select>
+                            <span asp-validation-for="AuthorId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label asp-for="CategoryId" class="control-label"></label>
+                            <select asp-for="CategoryId" class="form-control"
+                                    asp-items="@Model.CategoryNameSelectList">
+                                <option value="">Select...</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Book.IsMature" class="control-label"></label>
+                            <select asp-for="Book.IsMature" class="form-control">
+                                <option value="@false">Not mature</option>
+                                <option value="@true">Mature</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Book.PublicationDate" class="control-label"></label>
+                            <input asp-for="Book.PublicationDate" class="form-control" />
+                            <span asp-validation-for="Book.PublicationDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label asp-for="PublisherId" class="control-label"></label>
+                            <select asp-for="PublisherId" class="form-control"
+                                    asp-items="@Model.PublisherNameSelectList">
+                                <option value="">Select...</option>
+                            </select>
+                            <span asp-validation-for="PublisherId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="BookLanguageId" class="control-label"></label>
+                            <select asp-for="BookLanguageId" class="form-control"
+                                    asp-items="@Model.LanguageNameSelectList">
+                                <option value="">Select...</option>
+                            </select>
+                            <span asp-validation-for="BookLanguageId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Book.Isbn10" class="control-label"></label>
+                            <input asp-for="Book.Isbn10" class="form-control" />
+                            <span asp-validation-for="Book.Isbn10" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label asp-for="Book.Isbn13" class="control-label"></label>
+                            <input asp-for="Book.Isbn13" class="form-control" />
+                            <span asp-validation-for="Book.Isbn13" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Book.TotalPages" class="control-label"></label>
+                            <input type="number" value="100" asp-for="Book.TotalPages"
+                                   min="1" max="@int.MaxValue" class="form-control" />
+                            <span asp-validation-for="Book.TotalPages" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-9">
+                            <label asp-for="Book.DownloadLink" class="control-label"></label>
+                            <input asp-for="Book.DownloadLink" class="form-control" />
+                            <span asp-validation-for="Book.DownloadLink" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Book.Price" class="control-label"></label>
+                            <input value="10" asp-for="Book.Price" class="form-control" />
+                            <span asp-validation-for="Book.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                    <textarea rows="5" placeholder="Description" asp-for="Book.Description" class="form-control"></textarea>
+                    <span asp-validation-for="Book.Description" class="text-danger"></span>
+            </div>
+            <div class="row justify-content-end">
+                <div class="form-group">
+                    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -10,17 +10,21 @@ namespace BookStore.Models.Services
     {
         public FormattingService()
         {
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
         public string FormatDate(DateTime? date)
         {
-            return date?.ToString("D") ?? "-";
+            return date?.ToShortDateString() ?? "-";
         }
 
         public string FormatPrice(decimal price)
         {
-            return (price > 0) ? price.ToString("c") : "Free";
+            return (price > 0) ? price.ToString("c", new CultureInfo("en-US")) : "Free";
+        }
+
+        public string FormatMaturity(bool isMature)
+        {
+            return isMature ? "Mature" : "Not mature";
         }
     }
 }

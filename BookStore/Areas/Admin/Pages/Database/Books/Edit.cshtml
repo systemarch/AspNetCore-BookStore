@@ -1,0 +1,136 @@
+﻿@page
+@inject ImageService imageService
+@model BookStore.Areas.Admin.Pages.Database.Books.EditModel
+@{
+    ViewData["Title"] = "Edit Book";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Book.BookId" />
+            <input type="hidden" asp-for="Book.CoverImage" />
+            <input type="hidden" asp-for="Book.CoverImageType" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="form-group col-md-4">
+                    <div class="form-group">
+                        <label asp-for="CoverImageFile" class="control-label"></label>
+                        <input type="file" accept="image/*" asp-for="CoverImageFile" class="form-control" />
+                        <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CoverImageUrl" class="control-label"></label>
+                        <input asp-for="CoverImageUrl" class="form-control" />
+                        <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row justify-content-center align-content-center"
+                         style="height: 19rem;">
+                            <img class="img img-fluid" alt="No Cover" style="max-height: 19rem;"
+                                 src="@imageService.GetBase64Encoding(
+                                     Model.Book.CoverImage, Model.Book.CoverImageType)" />
+                        
+                    </div>
+                </div>
+                <div class="form-group col-md-8">
+                    <div class="form-group row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Book.Title" class="control-label"></label>
+                            <input asp-for="Book.Title" class="form-control" />
+                            <span asp-validation-for="Book.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Book.Subtitle" class="control-label"></label>
+                            <input asp-for="Book.Subtitle" class="form-control" />
+                            <span asp-validation-for="Book.Subtitle" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Book.AuthorId" class="control-label"></label>
+                            <select asp-for="Book.AuthorId" class="form-control"
+                                    asp-items="@Model.AuthorNameSelectList">
+                            </select>
+                            <span asp-validation-for="Book.AuthorId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label asp-for="Book.CategoryId" class="control-label"></label>
+                            <select asp-for="Book.CategoryId" class="form-control"
+                                    asp-items="@Model.CategoryNameSelectList">
+                            </select>
+                            <span asp-validation-for="Book.CategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Book.IsMature" class="control-label"></label>
+                            <select asp-for="Book.IsMature" class="form-control">
+                                <option value="@false">Not mature</option>
+                                <option value="@true">Mature</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Book.PublicationDate" class="control-label"></label>
+                            <input asp-for="Book.PublicationDate" class="form-control" />
+                            <span asp-validation-for="Book.PublicationDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label asp-for="Book.PublisherId" class="control-label"></label>
+                            <select asp-for="Book.PublisherId" class="form-control"
+                                    asp-items="@Model.PublisherNameSelectList">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Book.BookLanguageId" class="control-label"></label>
+                            <select asp-for="Book.BookLanguageId" class="form-control"
+                                    asp-items="@Model.LanguageNameSelectList">
+                            </select>
+                            <span asp-validation-for="Book.BookLanguageId" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Book.Isbn10" class="control-label"></label>
+                            <input asp-for="Book.Isbn10" class="form-control" />
+                            <span asp-validation-for="Book.Isbn10" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label asp-for="Book.Isbn13" class="control-label"></label>
+                            <input asp-for="Book.Isbn13" class="form-control" />
+                            <span asp-validation-for="Book.Isbn13" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Book.TotalPages" class="control-label"></label>
+                            <input type="number" asp-for="Book.TotalPages"
+                                   min="1" max="@int.MaxValue"
+                                   class="form-control" />
+                            <span asp-validation-for="Book.TotalPages" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col-md-9">
+                            <label asp-for="Book.DownloadLink" class="control-label"></label>
+                            <input asp-for="Book.DownloadLink" class="form-control" />
+                            <span asp-validation-for="Book.DownloadLink" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Book.Price" class="control-label"></label>
+                            <input asp-for="Book.Price" class="form-control" />
+                            <span asp-validation-for="Book.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <textarea rows="5" placeholder="Description" asp-for="Book.Description" class="form-control"></textarea>
+                <span asp-validation-for="Book.Description" class="text-danger"></span>
+            </div>
+            <div class="row justify-content-end">
+                <div class="form-group">
+                    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
