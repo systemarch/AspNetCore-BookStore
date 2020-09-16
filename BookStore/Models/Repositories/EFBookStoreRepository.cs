@@ -44,5 +44,29 @@ namespace BookStore.Models.Repositories
             _context.Author.Remove(author);
             await _context.SaveChangesAsync();
         }
+
+        public bool BookExists(int id)
+        {
+            return _context.Book.Any(e => e.BookId == id);
+        }
+        public async Task<Book> FindBookAsync(int? id)
+        {
+            return await _context.Book.FindAsync(id);
+        }
+        public async Task AddBookAsync(Book book)
+        {
+            _context.Entry(book).State = EntityState.Added;
+            await _context.SaveChangesAsync();
+        }
+        public async Task EditBookAsync(Book book)
+        {
+            _context.Attach(book).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteBookAsync(Book book)
+        {
+            _context.Book.Remove(book);
+            await _context.SaveChangesAsync();
+        }
     }
 }

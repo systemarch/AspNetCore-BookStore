@@ -18,5 +18,11 @@ namespace BookStore.Models.Repositories
         Task AddAuthorAsync(Author author);
         Task EditAuthorAsync(Author author);
         Task DeleteAuthorAsync(Author author);
+
+        bool BookExists(int id);
+        Task<Book> FindBookAsync(int? id);
+        Task AddBookAsync(Book book);
+        Task EditBookAsync(Book book);
+        Task DeleteBookAsync(Book book);
     }
 }
